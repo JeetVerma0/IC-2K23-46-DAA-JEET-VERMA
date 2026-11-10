@@ -1,0 +1,36 @@
+@startuml
+skinparam defaultFontName sans-serif
+
+title Linear Queue vs. Circular Queue (FIFO Discipline)
+
+package "Linear Queue (False Overflow Defect)" {
+  rectangle "Idx 0: [ dequeued ]" as L0 #Pink
+  rectangle "Idx 1: [ dequeued ]" as L1 #Pink
+  rectangle "Idx 2: [ Item 30 ] <-- front = 2" as L2 #LightYellow
+  rectangle "Idx 3: [ Item 40 ] <-- rear = 3" as L3 #LightYellow
+  
+  note bottom of L3
+    rear == capacity - 1
+    Enqueue fails (False Overflow)
+    even though indices 0 and 1 are empty!
+  end note
+}
+
+package "Circular Queue (Modulo Wraparound)" {
+  rectangle "Idx 0: [ Item 50 ] <-- rear = 0" as C0 #PaleGreen
+  rectangle "Idx 1: [ empty ]" as C1 #White
+  rectangle "Idx 2: [ empty ]" as C2 #White
+  rectangle "Idx 3: [ Item 30 ] <-- front = 3" as C3 #PaleGreen
+  rectangle "Idx 4: [ Item 40 ]" as C4 #PaleGreen
+
+  C4 -left-> C0 : (rear + 1) % capacity
+  
+  note bottom of C0
+    Wraparound: rear advances to 0!
+    _count variable tracks occupancy:
+    Full when _count == capacity
+    Empty when _count == 0
+  end note
+}
+
+@enduml

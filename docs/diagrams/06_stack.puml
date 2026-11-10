@@ -1,0 +1,35 @@
+@startuml
+skinparam defaultFontName sans-serif
+
+title Stack Data Structure (LIFO Discipline)
+
+package "Static Stack (Fixed Contiguous Array)" {
+  rectangle "Index 3: [ None ]" as S3 #White
+  rectangle "Index 2: [ Item 30 ]  <-- _top = 2" as S2 #Orange
+  rectangle "Index 1: [ Item 20 ]" as S1 #LightSalmon
+  rectangle "Index 0: [ Item 10 ]  (Base)" as S0 #LightSalmon
+
+  S2 -up-> S3 : push (when space permits)
+  S2 -down-> S1 : pop decrements top
+}
+
+package "Dynamic Stack (Linked List Nodes)" {
+  rectangle "Top Pointer" as DynTop #Yellow
+  rectangle "Node (Item 30)\n[ data: 30 | next ]" as DTop #LightGreen
+  rectangle "Node (Item 20)\n[ data: 20 | next ]" as DMid #LightGreen
+  rectangle "Node (Item 10)\n[ data: 10 | next: None ]" as DBot #LightGreen
+
+  DynTop --> DTop
+  DTop --> DMid : next
+  DMid --> DBot : next
+}
+
+note bottom of S0
+  LIFO Invariant:
+  Last-In, First-Out
+  Push: O(1), Pop: O(1), Peek: O(1)
+  Overflow: top == capacity - 1
+  Underflow: top == -1
+end note
+
+@enduml

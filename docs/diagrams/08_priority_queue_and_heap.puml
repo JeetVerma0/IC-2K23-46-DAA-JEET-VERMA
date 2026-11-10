@@ -1,0 +1,36 @@
+@startuml
+skinparam defaultFontName sans-serif
+
+title Priority Queue and Binary Min-Heap Architecture
+
+package "Complete Binary Min-Heap Tree Structure" {
+  rectangle "Root (Idx 0): [ 10 ]" as H0 #LightGreen
+  rectangle "Left Child (Idx 1): [ 15 ]" as H1 #LightBlue
+  rectangle "Right Child (Idx 2): [ 20 ]" as H2 #LightBlue
+  rectangle "L-L Leaf (Idx 3): [ 40 ]" as H3 #Lavender
+  rectangle "L-R Leaf (Idx 4): [ 50 ]" as H4 #Lavender
+  rectangle "R-L Leaf (Idx 5): [ 30 ]" as H5 #Lavender
+
+  H0 --> H1
+  H0 --> H2
+  H1 --> H3
+  H1 --> H4
+  H2 --> H5
+}
+
+package "Contiguous Array Storage Mapping" {
+  rectangle "[0]: 10 | [1]: 15 | [2]: 20 | [3]: 40 | [4]: 50 | [5]: 30" as ArrHeap #LightYellow
+}
+
+note bottom of ArrHeap
+  Heap Mathematical Invariants:
+  Parent(i) = floor((i - 1) / 2)
+  LeftChild(i) = 2 * i + 1
+  RightChild(i) = 2 * i + 2
+  Min-Heap Property: A[Parent(i)] <= A[i]
+  Push: O(log n) via sift_up
+  Pop Min: O(log n) via sift_down
+  Peek Min: O(1)
+end note
+
+@enduml

@@ -1,0 +1,30 @@
+@startuml
+skinparam defaultFontName sans-serif
+
+title Sparse Matrix Representation (4x4 Dense vs. 3-Tuple / Coordinate List)
+
+package "Dense Representation (4x4 = 16 Cells)" {
+  rectangle "Dense Grid:\n[ 0  0  3  0 ]\n[ 0  5  0  0 ]\n[ 0  0  0  7 ]\n[ 0  0  0  0 ]\nTotal Storage: 16 x 4B = 64 Bytes\nZeros Wasted: 13 cells (81.25%)" as Dense #MistyRose
+}
+
+package "3-Tuple Coordinate List Format (Rows x Cols x Value)" {
+  rectangle "Header Triple (Row 0):\nRows = 4 | Cols = 4 | Non-Zeros (K) = 3" as Header #LightGreen
+  
+  rectangle "Triple 1: Row 0 | Col 2 | Value: 3" as T1 #Lavender
+  rectangle "Triple 2: Row 1 | Col 1 | Value: 5" as T2 #Lavender
+  rectangle "Triple 3: Row 2 | Col 3 | Value: 7" as T3 #Lavender
+
+  Header -down-> T1
+  T1 -down-> T2
+  T2 -down-> T3
+}
+
+note right of Header
+  Storage Formula:
+  Dense: M * N * S bytes
+  Sparse: 3 * (K + 1) * S bytes
+  Break-even: K < (M*N - 3) / 3 (~33.3% non-zeros)
+  Storage Used: 3 * (3 + 1) * 4B = 48 Bytes
+end note
+
+@enduml

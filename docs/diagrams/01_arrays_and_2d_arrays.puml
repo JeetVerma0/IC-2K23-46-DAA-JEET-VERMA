@@ -1,0 +1,55 @@
+@startuml
+skinparam handwritten false
+skinparam monochrome false
+skinparam packageStyle rectangle
+skinparam defaultFontName sans-serif
+
+title Array and 2D Array Memory Representations
+
+package "1D Array (Contiguous Physical Memory)" {
+  rectangle "Base Address: 0x1000\nElement Size: 4 bytes" as Header1
+  
+  rectangle "Index 0\n[ 10 ]\n0x1000" as A0 #LightSkyBlue
+  rectangle "Index 1\n[ 20 ]\n0x1004" as A1 #LightSkyBlue
+  rectangle "Index 2\n[ 30 ]\n0x1008" as A2 #LightSkyBlue
+  rectangle "Index 3\n[ 40 ]\n0x100C" as A3 #LightSkyBlue
+  rectangle "Index 4\n[ 50 ]\n0x1010" as A4 #LightSkyBlue
+
+  A0 -right-> A1 : +4B
+  A1 -right-> A2 : +4B
+  A2 -right-> A3 : +4B
+  A3 -right-> A4 : +4B
+}
+
+package "2D Array (Row-Major List of Lists: 2x3 Matrix)" {
+  rectangle "Matrix Reference\n(List of Row Pointers)" as MatRef #LightYellow
+  
+  rectangle "Row 0 Pointer" as R0 #LightGoldenRodYellow
+  rectangle "Row 1 Pointer" as R1 #LightGoldenRodYellow
+  
+  rectangle "M[0][0] = 1" as M00 #PaleGreen
+  rectangle "M[0][1] = 2" as M01 #PaleGreen
+  rectangle "M[0][2] = 3" as M02 #PaleGreen
+  
+  rectangle "M[1][0] = 4" as M10 #LightCyan
+  rectangle "M[1][1] = 5" as M11 #LightCyan
+  rectangle "M[1][2] = 6" as M12 #LightCyan
+
+  MatRef --> R0
+  MatRef --> R1
+  
+  R0 --> M00
+  M00 -right-> M01
+  M01 -right-> M02
+  
+  R1 --> M10
+  M10 -right-> M11
+  M11 -right-> M12
+}
+
+note bottom of MatRef
+  Address Formula:
+  Addr(M[r][c]) = Base + (r * cols + c) * Element_Size
+end note
+
+@enduml

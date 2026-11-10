@@ -1,0 +1,30 @@
+@startuml
+skinparam defaultFontName sans-serif
+
+title Circular Linked List (CLL) - Closed Loop Ring Topology
+
+class CircularLinkedList {
+  - head: Node
+  - _size: int
+  + insert_at_position(data, pos)
+  + delete_at_position(pos)
+  + search(target): int
+  + reverse()
+}
+
+rectangle "Head Node (Index 0)\n[ data: 10 | next ]" as C0 #LightGreen
+rectangle "Node 1\n[ data: 20 | next ]" as C1 #LightGreen
+rectangle "Tail Node (Index 2)\n[ data: 30 | next ]" as C2 #LightGreen
+
+C0 -right-> C1 : next
+C1 -right-> C2 : next
+C2 -down-> C0 : next wraps to Head!
+
+note bottom of C1
+  Ring Invariant:
+  tail.next == head
+  No node points to None
+  Cycle termination requires tracking head visit
+end note
+
+@enduml

@@ -1,0 +1,38 @@
+@startuml
+skinparam defaultFontName sans-serif
+
+title Singly Linked List (SLL) Structure and Invariant
+
+class SinglyLinkedList {
+  - head: Node
+  - _size: int
+  + insert_at_position(data, pos)
+  + delete_at_position(pos)
+  + search(target): int
+  + reverse()
+  + concatenate(other_list)
+}
+
+class Node {
+  + data: Any
+  + next: Node
+}
+
+SinglyLinkedList o-- Node : head
+
+rectangle "Node 0 (Head)\n[ data: 10 | next ]" as N0 #LightBlue
+rectangle "Node 1\n[ data: 20 | next ]" as N1 #LightBlue
+rectangle "Node 2\n[ data: 30 | next ]" as N2 #LightBlue
+rectangle "Terminal\nNone" as NNull #Grey
+
+N0 -right-> N1 : next
+N1 -right-> N2 : next
+N2 -right-> NNull : next
+
+note bottom of N0
+  Traversal: O(n) sequential
+  Insert at Head: O(1)
+  Insert at Pos k: O(k) traverse + O(1) pointer swap
+end note
+
+@enduml
