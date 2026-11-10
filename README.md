@@ -26,12 +26,13 @@
    - [Unit 5: Queues](#unit-5-queues)
    - [Unit 6: Trees](#unit-6-trees)
    - [Unit 7: Graphs](#unit-7-graphs)
-6. [Documentation & Visual Assets](#documentation-visual-assets)
-7. [Algorithmic Complexity & Performance Analysis](#algorithmic-complexity-performance-analysis)
-8. [Execution Guide & Verification](#execution-guide-verification)
-9. [Curricular Learning Outcomes](#curricular-learning-outcomes)
-10. [Academic Navigation Directory](#academic-navigation-directory)
-11. [Conclusion](#conclusion)
+6. [Capstone Project: Pathfinding Visualizer](#capstone-project-pathfinding-visualizer)
+7. [Documentation & Visual Assets](#documentation-visual-assets)
+8. [Algorithmic Complexity & Performance Analysis](#algorithmic-complexity-performance-analysis)
+9. [Execution Guide & Verification](#execution-guide-verification)
+10. [Curricular Learning Outcomes](#curricular-learning-outcomes)
+11. [Academic Navigation Directory](#academic-navigation-directory)
+12. [Conclusion](#conclusion)
 
 ---
 
@@ -210,6 +211,15 @@ Data_structures/
 │   │   └── course_prerequisites.py
 │   ├── README.md
 │   └── reflection.md
+├── Capstone-Projects/
+│   └── Pathfinding-Visualizer/
+│       ├── pathfinding_visualizer.py
+│       ├── gui.py
+│       ├── README.md
+│       ├── reflection.md
+│       └── tests/
+│           ├── test_pathfinding.py
+│           └── test_gui.py
 └── docs/
     ├── algorithm-flowcharts/
     │   ├── 01_array_operations.png
@@ -383,6 +393,27 @@ Data_structures/
 
 ---
 
+## Capstone Project: Pathfinding Visualizer
+### A Graph-Based Pathfinding and Shortest Path Analysis System
+
+- **Location**: [`Capstone-Projects/Pathfinding-Visualizer/`](Capstone-Projects/Pathfinding-Visualizer/)
+- **Documentation**: [Project README](Capstone-Projects/Pathfinding-Visualizer/README.md) | [Engineering Reflection](Capstone-Projects/Pathfinding-Visualizer/reflection.md)
+- **Theoretical Basis**: Complete synthesis of Units 1–7. Discrete 2D planar grid modeled as an implicit graph $G=(V, E)$ with 4-connectivity (Up, Down, Left, Right). Demonstrates how foundational data structures govern exploration frontiers, space-time complexities, and optimality guarantees across unweighted and weighted topologies.
+- **Manual Core Data Structures**:
+  - **FIFO Queue (`Queue`)**: Singly-linked list with head/tail pointers delivering strict $\mathcal{O}(1)$ operations for BFS level-order frontier expansion.
+  - **LIFO Stack (`Stack`)**: Singly-linked list with top pointer delivering strict $\mathcal{O}(1)$ operations for DFS backtracking and deep branch exploration.
+  - **Binary Min-Heap (`MinHeap`)**: 0-indexed dynamic array priority queue with $\mathcal{O}(\log V)$ sift-up/down operations and a monotonic tie-breaker counter for Dijkstra's distance extraction.
+- **Algorithms Implemented**:
+  - **Breadth-First Search (BFS)**: Finds the guaranteed shortest path on unweighted grids ($\mathcal{O}(V + E)$ time, $\mathcal{O}(V)$ space).
+  - **Depth-First Search (DFS)**: Deeply dives along branches; finds a valid path if reachable ($\mathcal{O}(V + E)$ time, $\mathcal{O}(V)$ space).
+  - **Dijkstra's Algorithm**: Provably optimal shortest path for non-negative cell/edge weights ($\mathcal{O}((V + E) \log V)$ time, $\mathcal{O}(V)$ space).
+- **Dual-Mode System Interface**:
+  - **Graphical Desktop Application (`gui.py`)**: Modern dark-themed Tkinter GUI (Tokyo Dark / Catppuccin palette). Features non-blocking step-by-step animation via `widget.after()`, click-and-drag wall creation, right-click wall erasing, drag-and-drop Start (**S**) and Destination (**E**) relocation, procedural braided maze generation, speed slider ($1$–$100\text{ ms}$), pause/resume playback, and live statistics reporting pure computational runtime via `time.perf_counter()`.
+  - **Interactive Terminal CLI (`pathfinding_visualizer.py --cli`)**: ANSI-colored console interface with menu-driven grid editing, live terminal step rendering, preset scenarios, and a multi-algorithm benchmark comparison suite.
+- **Verification**: 38 automated unit tests covering core data structures, algorithms, edge cases, controller state transitions, and GUI lifecycle (`tests/test_pathfinding.py`, `tests/test_gui.py`).
+
+---
+
 ## Documentation & Visual Assets
 
 All high-level architectural documentation, mathematical analyses, PlantUML source specifications, and publication-ready graphics reside in the [`docs/`](docs/) directory:
@@ -488,9 +519,15 @@ python3 Lab06-Trees/Program04-AVLTree/avl_tree.py
 
 # Example 6: Run Dijkstra's Shortest Path Algorithm (Lab 7)
 python3 Lab07-Graphs/Program06-Dijkstra/dijkstra.py
+
+# Example 7: Launch Capstone Desktop GUI Visualizer
+python3 Capstone-Projects/Pathfinding-Visualizer/gui.py
+
+# Example 8: Run Capstone Terminal CLI
+python3 Capstone-Projects/Pathfinding-Visualizer/pathfinding_visualizer.py --cli
 ```
 
-#### 2. Automated Self-Testing Mode (`--test`)
+#### 2. Automated Self-Testing Mode (`--test` & `unittest`)
 Every program in the repository is equipped with a comprehensive self-testing assertion harness. To verify correct algorithmic invariants, boundary cases, and error handling without interactive inputs, pass the `--test` flag:
 
 ```bash
@@ -508,6 +545,9 @@ python3 Lab07-Graphs/Program06-Dijkstra/dijkstra.py --test
 
 # Run automated tests on Maze Solver
 python3 Lab07-Graphs/Program08-MazeSolver/maze_solver.py --test
+
+# Run automated test suite on Capstone Project (38 tests)
+python3 -m unittest discover -s Capstone-Projects/Pathfinding-Visualizer/tests -p "test_*.py" -v
 ```
 
 #### 3. Empirical Benchmarking (Lab 2)
@@ -547,6 +587,7 @@ The following directory provides direct links to the README documentation and re
 | **Unit 5: Queues** | [Lab05 README](Lab05-Queues/README.md) | [Lab05 Reflection](Lab05-Queues/reflection.md) | [Static Queue](Lab05-Queues/Program01-StaticQueue/static_queue.py), [Dynamic Queue](Lab05-Queues/Program02-DynamicQueue/dynamic_queue.py), [Circular Queue](Lab05-Queues/Program03-CircularQueue/circular_queue.py), [Deque](Lab05-Queues/Program04-Deque/deque.py), [Array PQ](Lab05-Queues/Program05-ArrayPriorityQueue/array_priority_queue.py), [Heap PQ](Lab05-Queues/Program06-HeapPriorityQueue/heap_priority_queue.py), [Customer Service](Lab05-Queues/Program07-CustomerServiceSimulation/customer_service.py), [CPU Scheduling](Lab05-Queues/Program08-ProcessScheduling/process_scheduling.py) |
 | **Unit 6: Trees** | [Lab06 README](Lab06-Trees/README.md) | [Lab06 Reflection](Lab06-Trees/reflection.md) | [Recursive Traversal](Lab06-Trees/Program01-RecursiveTraversals/recursive_traversals.py), [Iterative Traversal](Lab06-Trees/Program02-IterativeTraversals/iterative_traversals.py), [BST](Lab06-Trees/Program03-BinarySearchTree/binary_search_tree.py), [AVL Tree](Lab06-Trees/Program04-AVLTree/avl_tree.py), [Expression Tree](Lab06-Trees/Program05-ExpressionTree/expression_tree.py), [File System](Lab06-Trees/Program06-FileSystemSimulator/file_system.py), [Symbol Table](Lab06-Trees/Program07-SymbolTable/symbol_table.py) |
 | **Unit 7: Graphs** | [Lab07 README](Lab07-Graphs/README.md) | [Lab07 Reflection](Lab07-Graphs/reflection.md) | [Adjacency Matrix](Lab07-Graphs/Program01-AdjacencyMatrix/adjacency_matrix.py), [Adjacency List](Lab07-Graphs/Program02-AdjacencyList/adjacency_list.py), [BFS](Lab07-Graphs/Program03-BFS/bfs.py), [Recursive DFS](Lab07-Graphs/Program04-RecursiveDFS/recursive_dfs.py), [Iterative DFS](Lab07-Graphs/Program05-IterativeDFS/iterative_dfs.py), [Dijkstra](Lab07-Graphs/Program06-Dijkstra/dijkstra.py), [Social Network](Lab07-Graphs/Program07-SocialNetwork/social_network.py), [Maze Solver](Lab07-Graphs/Program08-MazeSolver/maze_solver.py), [Prerequisites](Lab07-Graphs/Program09-CoursePrerequisites/course_prerequisites.py) |
+| **Capstone Project: Pathfinding Visualizer** | [Capstone README](Capstone-Projects/Pathfinding-Visualizer/README.md) | [Capstone Reflection](Capstone-Projects/Pathfinding-Visualizer/reflection.md) | [Desktop GUI](Capstone-Projects/Pathfinding-Visualizer/gui.py), [Core & CLI](Capstone-Projects/Pathfinding-Visualizer/pathfinding_visualizer.py), [Unit Tests](Capstone-Projects/Pathfinding-Visualizer/tests/test_pathfinding.py) |
 
 ### Consolidated Academic Publications
 - **Consolidated Laboratory Manual**: [`docs/final-report.pdf`](docs/final-report.pdf)
